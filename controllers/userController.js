@@ -82,33 +82,24 @@ exports.verifyOTP = async (req, res) => {
 
 exports.login = async (req, res) => {
     try {
-        const userId = req.params.userId
         const { mobileNumber } = req.body;
-
-        const { error } = loginSchema.validate({ userId, mobileNumber });
+        const { error } = loginSchema.validate({ mobileNumber });
         if (error) {
             return res.status(400).json({ status: 400, error: error.details[0].message });
         }
-
-        const user = await User.findOne({ userId, mobileNumber });
-
+        const user = await User.findOne({ mobileNumber });
         if (!user) {
             return res.status(401).json({ status: 401, message: 'User not found' });
         }
-
         user.otp = generateOtp()
         await user.save();
-
         const token = jwt.sign({ _id: user._id }, process.env.SECRET, { expiresIn: process.env.ACCESS_TOKEN_TIME, });
-
         return res.status(200).json({ status: 200, message: 'Login successful', token: token, data: user, });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ status: 500, message: 'Login failed', error: error.message });
     }
 };
-
-
 exports.resendOTP = async (req, res) => {
     try {
         const { error } = resendOtpSchema.validate(req.params);

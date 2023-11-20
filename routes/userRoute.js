@@ -15,7 +15,7 @@ module.exports = (app) => {
 
     app.post('/api/user/register', auth.register);
     app.post('/api/user/verify/:userId', auth.verifyOTP);
-    app.post('/api/user/login/:userId', auth.login)
+    app.post('/api/user/login', auth.login)
     app.post('/api/user/resend/:userId', auth.resendOTP);
     app.get('/api/user/users', auth.getAllUsers);
     app.get('/api/user/users/:userId', auth.getUserById)

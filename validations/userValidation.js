@@ -21,7 +21,6 @@ exports.resendOtpSchema = Joi.object({
 });
 
 exports.loginSchema = Joi.object({
-    userId: Joi.string().length(24).hex().required(),
     mobileNumber: Joi.string().required(),
 });
 
