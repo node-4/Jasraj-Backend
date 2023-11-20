@@ -93,8 +93,8 @@ exports.login = async (req, res) => {
         }
         user.otp = generateOtp()
         await user.save();
-        const token = jwt.sign({ _id: user._id }, process.env.SECRET, { expiresIn: process.env.ACCESS_TOKEN_TIME, });
-        return res.status(200).json({ status: 200, message: 'Login successful', token: token, data: user, });
+        // const token = jwt.sign({ _id: user._id }, process.env.SECRET, { expiresIn: process.env.ACCESS_TOKEN_TIME, });
+        return res.status(200).json({ status: 200, message: 'Login successful', data: user, });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ status: 500, message: 'Login failed', error: error.message });
